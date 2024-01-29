@@ -1,14 +1,24 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
+import { HeaderComponent } from './components/header/header.component';
+import { StoreComponent } from './pages/store/store.component';
+import { MatButtonModule } from '@angular/material/button';
+import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  template:`
+  <app-header></app-header>
+  <p class="text-xs font-bold">Hello World</p>
+  <router-outlet></router-outlet>
+`,
+  
+  styleUrl: './app.component.css',
+  imports: [CommonModule, RouterOutlet, HeaderComponent, StoreComponent,MatButtonModule,  HttpClientModule],
 })
 export class AppComponent {
   title = 'ng-practice-fakestore';
+  items = ['loh','pidar','govno']
 }
