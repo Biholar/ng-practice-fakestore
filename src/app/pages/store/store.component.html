@@ -1,3 +1,21 @@
-<app-products-bar></app-products-bar>
+<app-products-bar
+  (changeFilters)="onChangeFilters($event)"
+  (changeSize)="onItemsSizeChange($event)"
+  (changeSort)="onSortTypeChange($event)"
+>
+</app-products-bar>
 
-<p>store works!</p>
+<mat-grid-list
+  gutterSize="20"
+  cols="4"
+  rowHeight="370px"
+  *ngIf="products && products.length"
+  class="m-auto w-4/6 z-0 drop-shadow-md"
+>
+  <mat-grid-tile *ngFor="let product of products">
+    <a [routerLink]="['product/',product.id, product.title]">
+    <app-product-card class=" w-fit z-100 drop-shadow-md" [product]="product"></app-product-card>
+</a>
+  </mat-grid-tile>
+</mat-grid-list>
+<router-outlet></router-outlet>

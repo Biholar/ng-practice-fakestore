@@ -11,7 +11,6 @@ import { HttpClientModule } from '@angular/common/http';
   standalone: true,
   template:`
   <app-header></app-header>
-  <p class="text-xs font-bold">Hello World</p>
   <router-outlet></router-outlet>
 `,
   
@@ -20,5 +19,4 @@ import { HttpClientModule } from '@angular/common/http';
 })
 export class AppComponent {
   title = 'ng-practice-fakestore';
-  items = ['loh','pidar','govno']
 }

@@ -1,0 +1,24 @@
+<mat-card class="  hover:bg-slate-100 ease-linear cursor-pointer h-[370px] p-4" *ngIf="product">
+  <div>
+    <img
+      mat-card-lg-image
+      class="mb-1 mx-auto object-contain"
+      [src]="product.image"
+    />
+  </div>
+  <div class="w-full ">
+    <div class="w-full h-[150px]">
+      <mat-card-title class="pb-2">
+        <span class="tracking-tight leading-3">{{ product.title }}</span>
+      </mat-card-title>
+      <mat-card-subtitle>{{ product.category | titlecase }}</mat-card-subtitle>
+    </div>
+    <div class="price font-bold text-lg pb-5">
+      <mat-list-item align="end">{{
+        product.price | currency : "USD"
+      }}</mat-list-item>
+    </div>
+  </div>
+</mat-card>
+
+
