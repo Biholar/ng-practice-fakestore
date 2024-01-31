@@ -1,13 +1,13 @@
-import { RouterModule } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { ActivatedRoute, Params, Router, RouterModule } from '@angular/router';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { MatCardModule } from '@angular/material/card';
 import { CommonModule } from '@angular/common';
+import { Subscription } from 'rxjs';
+import { ProductsBarComponent } from './../../components/products-bar/products-bar.component';
+import { ProductCardComponent } from '../../components/product-card/product-card.component';
 import { ProductsService } from './../../services/products.service';
 import { Products } from './../../models/products';
-import { ProductsBarComponent } from './../../components/products-bar/products-bar.component';
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MatGridListModule } from '@angular/material/grid-list';
-import { ProductCardComponent } from '../../components/product-card/product-card.component';
-import { MatCardModule } from '@angular/material/card';
 
 @Component({
   standalone: true,
@@ -25,17 +25,20 @@ import { MatCardModule } from '@angular/material/card';
   styleUrl: './store.component.css',
 })
 export class StoreComponent implements OnInit, OnDestroy {
-  productsSubscription: Subscription | undefined;
+  isSubscripted: Subscription | undefined;
   size = '12';
-  sort = 'desc';
+  sort = 'asc';
   category: string | undefined;
   products: Products[] | undefined;
-  
 
-  constructor(private prodService: ProductsService) {}
+  constructor(
+    private prodService: ProductsService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {}
   ngOnInit(): void {
+    this.getLinkFilter();
     this.getAllProducts();
-    
   }
   onChangeFilters(newFilter: string) {
     this.category = newFilter;
@@ -45,6 +48,12 @@ export class StoreComponent implements OnInit, OnDestroy {
 
   resetFiler() {
     this.getAllProducts();
+  }
+
+  getLinkFilter() {
+    this.isSubscripted = this.route.queryParams.subscribe((params: Params) => {
+      params ? (this.category = params['cat']) : (this.category = undefined);
+    });
   }
 
   onSortTypeChange(newSortType: string) {
@@ -59,15 +68,15 @@ export class StoreComponent implements OnInit, OnDestroy {
   }
 
   getAllProducts() {
-    this.productsSubscription = this.prodService
+    this.isSubscripted = this.prodService
       .getAllProducts(this.size, this.sort, this.category)
       .subscribe((_products: Array<Products>) => (this.products = _products));
     this.category = undefined;
   }
 
   ngOnDestroy(): void {
-    if (this.productsSubscription) {
-      this.productsSubscription.unsubscribe();
+    if (this.isSubscripted) {
+      this.isSubscripted.unsubscribe();
     }
   }
 }

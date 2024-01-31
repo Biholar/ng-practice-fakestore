@@ -1,6 +1,21 @@
-<h4>Product PAge</h4>
-<h4>{{product.title}}</h4>
-<img [src]="product.image">
-<h4>{{product.description}}</h4>
-<h4>{{product.category}}</h4>
-<h4>{{product.price | currency:'USD'}}</h4>
+<div class="px-28">
+  <div class="p-5 pl-10">
+    <p class="text-lg p-0 h-6 cursor-pointer">
+      <a (click)="sendQueryParams(product.category)">{{
+        product.category | titlecase
+      }}</a>
+    </p>
+    <span class="text-3xl">{{ product.title }}</span>
+  </div>
+
+  <div class="pl-32">
+    <img class="object-contain h-[550px] w-[450px]" [src]="product.image" />
+  </div>
+
+  <div class="pl-10 p-10 w-1/2">
+    <p class="text-2xl font-medium">Description</p>
+    <span class="text-lg">{{ product.description }}</span>
+  </div>
+
+  <h4>{{ product.price | currency : "USD" }}</h4>
+</div>

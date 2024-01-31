@@ -1,24 +1,16 @@
-import { CommonModule } from '@angular/common';
-import { CategoryService } from './../../services/category.service';
-import {
-  Component,
-  EventEmitter,
-  OnChanges,
-  OnInit,
-  Output,
-  SimpleChanges,
-} from '@angular/core';
-
-import { MatIconModule } from '@angular/material/icon';
-import { MatSelectModule } from '@angular/material/select';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { Subscription, Observable } from 'rxjs';
-import { AppComponent } from '../../app.component';
-import { MatMenuModule } from '@angular/material/menu';
+import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialog } from '@angular/material/dialog';
+import { CommonModule } from '@angular/common';
+import { Subscription } from 'rxjs';
 import { AddProductFormComponent } from '../add-product-form/add-product-form.component';
+import { CategoryService } from './../../services/category.service';
+import { AppComponent } from '../../app.component';
 
 @Component({
   selector: 'app-products-bar',
@@ -40,28 +32,26 @@ export class ProductsBarComponent implements OnInit {
   isSubscripted: Subscription | undefined;
   selected = 'All';
   categories: string[] | undefined;
+  itemsShowSize = '12';
+  sort = 'desc';
+
   @Output() changeFilters = new EventEmitter<string>();
   @Output() changeSize = new EventEmitter<string>();
   @Output() changeSort = new EventEmitter<string>();
 
-  itemsShowSize = '12';
-  sort = 'desc';
-  
-  animal: string='puma';
-  name: string='loh';
-
-  constructor(private categoryService: CategoryService,public dialog: MatDialog) {}
+  constructor(
+    private categoryService: CategoryService,
+    public dialog: MatDialog
+  ) {}
 
   ngOnInit() {
     this.getAllCategories();
-    
   }
 
   openAddDialog(): void {
     const dialogRef = this.dialog.open(AddProductFormComponent, {
-      data: {name: this.name, animal: this.animal},
+      data: { name: 'Dialog' },
     });
-
   }
 
   getAllCategories() {
@@ -83,6 +73,7 @@ export class ProductsBarComponent implements OnInit {
   }
 
   onChangeFilters(category: string) {
+    if (category == 'all') category = '';
     this.changeFilters.next(category);
   }
 }
